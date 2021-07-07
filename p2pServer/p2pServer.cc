@@ -214,7 +214,7 @@ void p2pServer::onMessage(const TcpConnectionPtr& conn, const string& message, T
         callbackFunc(conn, SUBSCRIBE_DEVICE, subscribeDeviceFunc(conn, string(message, 1, message.length() - 1)));
         break;
     case SEND_DATA:
-        sendDataFunc(conn, string(message, 1, message.length() - 1));
+        sendDataFunc(conn, message);
         callbackFunc(conn, SEND_DATA, EXEC_SUCCESS);
         break;
     case UNREGISTER_DEVICE:
