@@ -1,4 +1,5 @@
 #include "stupidP2P.h"
+#include "netWork.h"
 
 #include <signal.h>
 #include <errno.h>
@@ -12,16 +13,6 @@
 #include <arpa/inet.h>
 #include <netinet/in.h>
 
-struct stupid_p2p_client_node {
-    int32_t fd;
-    int32_t socket_fd;
-    struct sockaddr_in server_addr;
-    pthread_t stupid_client_receive_id;
-    pthread_t stupid_client_send_id;
-    struct stupid_p2p_client_node *next;
-};
-
-typedef struct stupid_p2p_client_node stupid_p2p_t;
 stupid_p2p_t stupid_p2p_head = {0};
 pthread_rwlock_t stupid_p2p_rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
@@ -84,17 +75,26 @@ static void check_module_init()
     }
 }
 
-
 static void *_stupid_p2p_recv_func(void *argv)
 {
     pthread_detach(pthread_self());
     stupid_p2p_t *stupid_p2p = (stupid_p2p_t *)argv;
     int32_t ret;
-    int8_t buf[1024] = {0};
+    uint8_t buf[4096] = {0};
 
     while (1) {
         ret = recv(stupid_p2p->socket_fd, buf, sizeof(buf), 0);
-        _log("receive %d bytes: %s\n", ret, buf);
+        if (ret <= 0 && errno != EINTR) {
+            _log("fd: %d receive error, maybe connection is close\n", stupid_p2p->fd);
+            break;
+        } else if (ret + recv_data_fifo_length(&stupid_p2p->recv_fifo) > NET_READ_DATA_LENGTH){
+            _log("fd: %d receive fifo is full\n", stupid_p2p->fd);
+            // TODO: exec fifo is full
+        } else {
+            recv_data_fifo_push(&stupid_p2p->recv_fifo, buf, ret);
+        }
+
+        parse_recv_net_command(stupid_p2p);
     }
 
     return NULL;
@@ -130,6 +130,8 @@ int32_t stupid_p2p_init(const char *server_ip, const int32_t server_port)
         _log("%s: Invalid IP address\n", __func__);
         return STUPID_P2P_BAD_PARAM;
     }
+    recv_data_fifo_init(&stupid_p2p->recv_fifo);
+    recv_data_list_init(&stupid_p2p->recv_data_list);
 
     stupid_p2p->socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if (stupid_p2p->socket_fd < 0) {
@@ -174,7 +176,8 @@ void stupid_p2p_deinit(int32_t fd)
     pthread_cancel(stupid_p2p->stupid_client_send_id);
     pthread_join(stupid_p2p->stupid_client_receive_id, NULL);
     pthread_join(stupid_p2p->stupid_client_send_id, NULL);
-    
+
+    recv_data_list_deinit(stupid_p2p->recv_data_list);
     close(stupid_p2p->socket_fd);
     remove_stupid_p2p(stupid_p2p->fd);
 
