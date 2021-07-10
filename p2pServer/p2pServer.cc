@@ -229,8 +229,8 @@ void p2pServer::onMessage(const TcpConnectionPtr& conn, const string& message, T
         callbackFunc(conn, CHECK_DEVICE_ALIVE, checkDeviceAliveFunc(string(message, 1, message.length() - 1)));
         break;
     case HEART_BEAT:
-            heartBeatFunc(conn, time);
-            callbackFunc(conn, HEART_BEAT, EXEC_SUCCESS);
+        heartBeatFunc(conn, time);
+        callbackFunc(conn, HEART_BEAT, EXEC_SUCCESS);
         break;
     default:
         LOG_INFO << "unknow command";

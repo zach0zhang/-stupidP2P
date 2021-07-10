@@ -3,7 +3,7 @@ P_SRCS		:= main.c $(wildcard ../*.c)
 P_INCLUDE	:= ../
 CC 			:= gcc
 CFLAGS		:= $(addprefix -I,$(P_INCLUDE))
-LDFLAGS 	:= -lpthread
+LDFLAGS 	:= -g -O0 -lpthread
 
 .PHONY: all clean
 all: $(P_NAME)

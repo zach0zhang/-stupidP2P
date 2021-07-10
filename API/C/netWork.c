@@ -4,44 +4,6 @@
 
 #include <string.h>
 
-/*
-    net package format:
-        package length(4 bytes) + protocol command and data
-        protocol format:
-            command(ProtocolCode) + data(send data or device id):
-                register device: 0x01 + device_id
-                subscribe device: 0x02 + device_id
-                send data: 0x03 + data
-                unregister_device: 0x04
-                unsubscribe_device: 0x05 + device_id
-                check device alive: 0x06
-
-            callback format:
-            command(ProtocolCode) | CALL_BACK_MASK(0x80) + SUCCESS/FAIL
-            receive data: 0x03 + data
-*/
-#define     NET_PACKAGE_LENGTH              0x04
-#define     CALL_BACK_MASK                  0x80
-
-#define     REGISTER_DEVICE                 0x01
-#define     REGISTER_DEVICE_CALL_BACK       (CALL_BACK_MASK | REGISTER_DEVICE)
-#define     SUBSCRIBE_DEVICE                0x02
-#define     SUBSCRIBE_DEVICE_CALL_BACK      (CALL_BACK_MASK | SUBSCRIBE_DEVICE)
-#define     SEND_DATA                       0x03
-#define     SEND_DATA_CALL_BACK             (CALL_BACK_MASK | SEND_DATA)
-#define     UNREGISTER_DEVICE               0x04
-#define     UNREGISTER_DEVICE_CALL_BACK     (CALL_BACK_MASK | UNREGISTER_DEVICE)
-#define     UNSUBSCRIBE_DEVICE              0x05
-#define     UNSUBSCRIBE_DEVICE_CALL_BACK    (CALL_BACK_MASK | UNSUBSCRIBE_DEVICE)
-#define     CHECK_DEVICE_ALIVE              0x06
-#define     CKECK_DEVICE_ALIVE_CALL_BACK    (CALL_BACK_MASK | CHECK_DEVICE_ALIVE)
-#define     HEART_BEAT                      0x07
-#define     HEART_BEAT_CALL_BACK            (CALL_BACK_MASK | HEART_BEAT)
-#define     EXEC_FAIL                       0x00
-#define     EXEC_SUCCESS                    0x01
-
-
-
 
 static void to_hex(unsigned char *s, int l, char *d)
 {
@@ -78,8 +40,8 @@ void parse_recv_net_command(stupid_p2p_t *stupid_p2p)
                 recv_data_fifo_pop(&stupid_p2p->recv_fifo, 1);
             }
 
-            //to_hex(command, command_length, show_command);
-            //_log("%s\n", show_command);
+            to_hex(command, command_length, show_command);
+            _log("%s\n", show_command);
 
             switch(command[0]) {
             case SEND_DATA: {
@@ -141,7 +103,7 @@ void parse_recv_net_command(stupid_p2p_t *stupid_p2p)
             case HEART_BEAT_CALL_BACK:
                 if (command_length != 2)
                     _log("heart beat callback length error\n");
-                stupid_p2p->command_status.check_alive_flag = (command[1] == EXEC_SUCCESS ? EXEC_SUCCESS : EXEC_FAIL);
+                stupid_p2p->command_status.heart_beat_flag = (command[1] == EXEC_SUCCESS ? EXEC_SUCCESS : EXEC_FAIL);
                 break;           
             default:
                 _log("Invaild command\n");
