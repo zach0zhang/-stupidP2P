@@ -407,19 +407,19 @@ int32_t stupid_p2p_heart_beat(const int32_t fd)
     return need_to_send(fd, HEART_BEAT, NULL, 0);
 }
 
-int32_t stupid_p2p_recv_data(const int32_t fd, recv_data_buf_t *recv_data_buf)
+recv_data_buf_t *stupid_p2p_recv_data(const int32_t fd)
 {
     const static int32_t max_num = 1024;
     int32_t recv_data_num = 0;
     recv_data_t *data_buf[1024] = {0};
 
-    recv_data_buf = (recv_data_buf_t *)calloc(1, sizeof(recv_data_buf_t));
-    if (recv_data_buf == NULL)
-        return STUPID_P2P_MEMORY_ERROR;
-
     stupid_p2p_t *stupid_p2p = find_stupid_p2p(fd);
     if (stupid_p2p == NULL)
-        return STUPID_P2P_BAD_PARAM;
+        return NULL;
+
+    recv_data_buf_t *recv_data_buf = (recv_data_buf_t *)calloc(1, sizeof(recv_data_buf_t));
+    if (recv_data_buf == NULL)
+        return NULL;
 
     while (1) {
         recv_data_t *recv_data = recv_data_list_return_data(&stupid_p2p->recv_data_list);
@@ -431,14 +431,16 @@ int32_t stupid_p2p_recv_data(const int32_t fd, recv_data_buf_t *recv_data_buf)
 
     recv_data_buf->recv_data = (recv_data_t **)calloc(1, sizeof(recv_data_t **) * recv_data_num);
     if (recv_data_buf->recv_data == NULL) {
+        free(recv_data_buf);
         for (int32_t i = 0; i < recv_data_num; i++)
             free(data_buf[i]);
-            return STUPID_P2P_MEMORY_ERROR;
+        return NULL;
     }
-    memcpy(recv_data_buf->recv_data, data_buf, recv_data_num);
+
+    memcpy(recv_data_buf->recv_data, data_buf, sizeof(recv_data_t *) * recv_data_num);
     recv_data_buf->num = recv_data_num;
 
-    return STUPID_P2P_NO_ERROR;
+    return recv_data_buf;
 }
 
 void stupid_p2p_free_recv_data_buf(recv_data_buf_t *recv_data_buf)

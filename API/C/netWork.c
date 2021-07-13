@@ -40,8 +40,8 @@ void parse_recv_net_command(stupid_p2p_t *stupid_p2p)
                 recv_data_fifo_pop(&stupid_p2p->recv_fifo, 1);
             }
 
-            to_hex(command, command_length, show_command);
-            _log("%s\n", show_command);
+            //to_hex(command, command_length, show_command);
+            //_log("%s\n", show_command);
 
             switch(command[0]) {
             case SEND_DATA: {

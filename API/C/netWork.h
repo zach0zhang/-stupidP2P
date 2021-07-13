@@ -104,10 +104,13 @@ static inline void recv_data_list_add(recv_data_list_t *list, recv_data_list_nod
 {
     pthread_mutex_lock(&list->recv_data_list_mutex);
     recv_data_list_node_t *prev = list->recv_data_head.prev;
-    node->next = prev->next;
+    recv_data_list_node_t *next = &list->recv_data_head;
+
+    next->prev = node;
+    node->next = next;
     node->prev = prev;
     prev->next = node;
-    prev->next->prev = node;
+
     pthread_mutex_unlock(&list->recv_data_list_mutex);
 }
 
@@ -297,7 +300,7 @@ static inline void send_command_fifo_deinit(net_work_send_command_fifo_t *fifo)
 {
     while (!send_command_fifo_empty(fifo)) {
         net_work_command_t *command = send_command_fifo_top(fifo);
-        free(command->data);
+        //free(command->data);
         send_command_fifo_pop(fifo);
     }
     pthread_mutex_destroy(&fifo->send_data_fifo_mutex);

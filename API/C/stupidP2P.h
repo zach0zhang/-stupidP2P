@@ -46,7 +46,7 @@ typedef struct {
     recv_data_t **recv_data;
 }recv_data_buf_t;
 
-int32_t stupid_p2p_recv_data(const int32_t fd, recv_data_buf_t *recv_data_buf);
+recv_data_buf_t *stupid_p2p_recv_data(const int32_t fd);
 void stupid_p2p_free_recv_data_buf(recv_data_buf_t *recv_data_buf);
 
 
