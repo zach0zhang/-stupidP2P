@@ -60,7 +60,7 @@ class clientRecvThread(threading.Thread):
             else:
                 if len(recvData):
                     self._recvDeque.extendleft(list(recvData))
-                    print(self._recvDeque)
+                    #print(self._recvDeque)
 
             while len(self._recvDeque) > self.__commandHeaderLength:
                 headerBytes = bytes()
@@ -102,7 +102,7 @@ class clientRecvThread(threading.Thread):
                     # receive send data command
                     elif command == self.__sendDataCommand:
                         data = []
-                        for j in (headerLength - popLength):
+                        for j in range(headerLength - popLength):
                             data.append(self._recvDeque.pop())
 
                         popLength = headerLength
@@ -161,10 +161,9 @@ class stupidP2PClient():
     __notReceiveResponse                = 0xff
 
 
-    def __init__(self, serverIp, serverPort, deviceId):
+    def __init__(self, serverIp, serverPort):
         self.serverIp = serverIp
         self.serverPort = serverPort
-        self.deviceId = deviceId
 
         self.runningFlag = 0
         self.needToRestartFlag = 0
@@ -251,7 +250,8 @@ class stupidP2PClient():
         return self.recvThread.commandResponse[command]
         
 
-    def registerDevice(self):
+    def registerDevice(self, deviceId):
+        self.deviceId = deviceId
         return self.__sendCommand(self.__registerCommand, bytes(self.deviceId, encoding="UTF-8"))
 
     def subscribeDevice(self, subscribeDeviceId):
@@ -272,14 +272,12 @@ class stupidP2PClient():
         return self.__sendCommand(self.__checkCommand, bytes(checkDeviceId, encoding="UTF-8"))
 
     def recvData(self):
-        num = 0
         dataList = []
         if self.needToRestartFlag == 0 or self.runningFlag == 1:
             while not self.recvThread.recvDataQueue.empty():
                 dataList.append(self.recvThread.recvDataQueue.get())
-                num += 1
 
-        return num, dataList
+        return dataList
 
 
     def __heartBeat(self):
@@ -294,11 +292,11 @@ class stupidP2PClient():
 
 
 if __name__ == '__main__':
-    client = stupidP2PClient("192.168.11.63", 4040, "client1")
+    client = stupidP2PClient("192.168.11.63", 4040)
     ret = client.initClient()
     print(ret)
     if ret:
-        client.registerDevice()
+        client.registerDevice("client1")
         client.checkDeviceAlive("client2")
         client.subscribeDevice("clinet2")
         client.sendData("hello")

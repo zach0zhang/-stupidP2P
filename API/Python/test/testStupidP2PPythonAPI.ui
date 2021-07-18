@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>testStupidP2PPythonAPI</class>
+ <widget class="QWidget" name="testStupidP2PPythonAPI">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1097</width>
+    <height>935</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>test stupidP2P Python API</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label_server_ip">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>server ip：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_server_ip">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>192.168.2.174</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_server_port">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>server port：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_server_port">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>4040</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_connection">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>连接</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_my_id">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>本机Id：</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineEdit_my_id">
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>client1</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_register">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>注册</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_unregister">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>取消注册</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QLabel" name="label_subscribe_id">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>订阅Id：</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="lineEdit_subscribe_id">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>client2</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_check_alive">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>检测存在</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_subscribe">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>订阅</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_unsubscribe">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+       <property name="text">
+        <string>取消订阅</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QTextBrowser" name="textBrowser_show_receive">
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <item>
+        <widget class="QTextEdit" name="textEdit_input">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>100</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_send_data">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 75 14pt &quot;Arial&quot;;</string>
+         </property>
+         <property name="text">
+          <string>发送</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_tips">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(221, 221, 221);
+font: 75 18pt &quot;Arial&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
