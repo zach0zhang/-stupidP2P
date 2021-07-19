@@ -86,7 +86,7 @@ void stupid_p2p_free_recv_data_buf(recv_data_buf_t *recv_data_buf);
 
 ```
 
-![api_c_test](https://github.com/zach0zhang/stupidP2P/tree/master/doc/pic/api_c_test.png)
+![api_c_test](./doc/pic/api_c_test.png)
 
 ### 2.2 Python
 [Python的API接口](https://github.com/zach0zhang/stupidP2P/tree/master/API/Python)封装了一个stupidP2PClient类，并提供了与C接口函数功能基本一致的方法，类内通过socket维护与server通信的Tcp，定时发送心跳，检测断线自动重连
@@ -109,5 +109,5 @@ client.deinitClient()
 
 测试Python接口，使用Pyqt5+stupidP2PClient实现了一个通讯[client](https://github.com/zach0zhang/stupidP2P/tree/master/API/Python/test):
 
-![api_python_test](https://github.com/zach0zhang/stupidP2P/tree/master/doc/pic/api_python_test.gif)
+![api_python_test](./doc/pic/api_python_test.gif)
 
