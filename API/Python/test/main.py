@@ -147,7 +147,7 @@ class client(QWidget, Ui_testStupidP2PPythonAPI):
         ret = self.client.sendData(sendStr)
         self.__checkCommandReturn(ret, "发送")
 
-        self.printTextBrowser("发送： " + sendStr)
+        self.printTextBrowser("发送：" + sendStr)
 
     def __checkCommandReturn(self, ret, headerStr):
         if ret == 0xff:

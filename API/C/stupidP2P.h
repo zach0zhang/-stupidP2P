@@ -34,7 +34,7 @@ int32_t stupid_p2p_send_data(const int32_t fd, uint8_t *buf, int32_t length);
 int32_t stupid_p2p_unregister_device(const int32_t fd);
 int32_t stupid_p2p_unsubscribe_device(const int32_t fd, const uint8_t *device_id);
 int32_t stupid_p2p_check_device_alive(const int32_t fd, const uint8_t *device_id);
-int32_t stupid_p2p_heart_beat(const int32_t fd);
+int32_t stupid_p2p_heart_beat(const int32_t fd); // Internal function no need to call
 
 typedef struct {
     int32_t length;
